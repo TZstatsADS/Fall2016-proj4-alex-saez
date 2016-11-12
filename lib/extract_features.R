@@ -6,7 +6,7 @@ extract_features = function(song){
   # INPUT: song in h5 format
   # OUTPUT: single-row data frame of relevant song features
   
-  gen_features = song$songs %>% select(danceability, energy, key, loudness, mode, tempo, time_signature)
+  gen_features = song$songs %>% select(key, loudness, mode, tempo, time_signature)
   
   pitches = rowMeans(song$segments_pitches)
   pitches = data.frame(pitch = matrix(pitches, nrow=1))
