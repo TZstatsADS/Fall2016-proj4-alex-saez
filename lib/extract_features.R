@@ -32,6 +32,9 @@ for(i in 1:length(all_songs)){
   X = rbind(X, extract_features(song))
 }
 
+# create column with song ids:
+X = data.frame(song_id = gsub('.h5', '', all_songs), X)
+
 save(X, file='../output/features.RData')
 
 
