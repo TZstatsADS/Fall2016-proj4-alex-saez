@@ -1,5 +1,6 @@
 
 library(dplyr)
+library(rhdf5)
 
 extract_features = function(song){
   # Extract relevant features from song and return them as data frame

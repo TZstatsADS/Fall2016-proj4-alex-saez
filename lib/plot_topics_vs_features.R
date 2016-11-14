@@ -7,7 +7,7 @@ load('../output/topicmodel_5.RData')
 # select songs included in topic model (i.e. songs in English)
 X = X[X$song_id %in% tm@documents, -1]
 
-terms = terms(tm, 50)
+terms = terms(tm, 100)
 topics = topics(tm, 2)
 
 pc = prcomp(X, scale=TRUE, center=TRUE)
