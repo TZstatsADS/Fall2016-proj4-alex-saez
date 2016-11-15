@@ -28,8 +28,10 @@ dtm = DocumentTermMatrix(corp, control = list(wordLengths = c(0, Inf)))
 dtm$dimnames$Docs = names(songs)
 
 # fit LDA:
-tm = LDA(dtm, k=5, method="Gibbs")
+t = Sys.time()
+tm = LDA(dtm, k=20, method="Gibbs")
+Sys.time() - t
 
-save(tm, file='../output/topicmodel_5.RData')
+save(tm, file='../output/topicmodel_20.RData')
 
 

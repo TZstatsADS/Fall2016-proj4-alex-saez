@@ -29,6 +29,11 @@ format_corpus = function(x){
 documents = apply(lyr, 1, format_corpus)
 vocab = names(lyr)
 
+D <- length(documents)  # number of documents (2,000)
+W <- length(vocab)  # number of terms in the vocab (14,568)
+doc.length <- sapply(documents, function(x) sum(x[2, ]))  # number of tokens per document [312, 288, 170, 436, 291, ...]
+term.frequency <- colSums(lyr)  # frequencies of terms in the corpus [8939, 5544, 2411, 2410, 2143, 
+
 # fit LDA model:
 K = 20
 G = 5000
@@ -40,4 +45,24 @@ tm = lda.collapsed.gibbs.sampler(documents = documents, K = K, vocab = vocab,
                                    eta = eta, initial = NULL, burnin = 0,
                                    compute.log.likelihood = TRUE)
 Sys.time() - t
+
+theta <- t(apply(tm$document_sums + alpha, 2, function(x) x/sum(x)))
+phi <- t(apply(t(tm$topics) + eta, 2, function(x) x/sum(x)))
+MovieReviews <- list(phi = phi,
+                     theta = theta,
+                     doc.length = doc.length,
+                     vocab = vocab,
+                     term.frequency = term.frequency)
+
+library(servr)
+library(LDAvis)
+# create the JSON object to feed the visualization:
+json <- createJSON(phi = MovieReviews$phi, 
+                   theta = MovieReviews$theta, 
+                   doc.length = MovieReviews$doc.length, 
+                   vocab = MovieReviews$vocab, 
+                   term.frequency = MovieReviews$term.frequency)
+
+serVis(json, out.dir = 'vissample2', open.browser = T)
+
 
