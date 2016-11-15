@@ -1,7 +1,5 @@
 library(ggplot2)
-library(topicmodels)
 
-load('../output/english_songs.RData')
 load('../output/features.RData')
 load('../output/topicmodel_10.RData')
 
@@ -9,25 +7,16 @@ load('../output/topicmodel_10.RData')
 X = X[X$song_id %in% tm@documents, -1]
 
 terms = terms(tm, 100)
-topics = topics(tm, 2)
+topics = as.factor(topics(tm, 1))
 
 pc = prcomp(X, scale=TRUE, center=TRUE)
 
-topic_ind = topics[1,] %in% c(2,3)
-qplot(pc$x[topic_ind,1], pc$x[topic_ind,2], col=as.factor(topics[1,topic_ind]))
+topic_ind = topics %in% 1:10 #c(2,3)
+qplot(pc$x[topic_ind,1], pc$x[topic_ind,2], col=topics[topic_ind])
+qplot(pc$x[topic_ind,1], pc$x[topic_ind,2], col=topics[topic_ind], geom = "density2d")
 
-library(servr)
-library(LDAvis)
-# create the JSON object to feed the visualization:
-phi = exp(tm@beta)/rowSums(exp(tm@beta))
-doc.length = sapply(songs, function(x){length(strsplit(x, ' ')[[1]])})
-term.frequency = colSums(as.matrix(tm@wordassignments))
-
-json = createJSON(phi = phi, 
-                   theta = tm@gamma, 
-                   doc.length = doc.length, 
-                   vocab = tm@terms, 
-                   term.frequency = term.frequency)
-
-serVis(json, out.dir = 'vissample', open.browser = T)
-
+# fit tree model
+library(rpart)
+XX = cbind(topic = topics, X)
+tree = rpart(topic~., data=XX, control = list())
+a = predict(tree, newdata = XX[100,])
