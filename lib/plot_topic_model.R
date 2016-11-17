@@ -6,7 +6,6 @@ load('../output/lyr_english.RData')
 load('../output/topicmodel_5.RData')
 
 
-
 # create the JSON object to feed the visualization:
 phi = exp(tm@beta)/rowSums(exp(tm@beta))
 doc.length = rowSums(lyr[,-1])

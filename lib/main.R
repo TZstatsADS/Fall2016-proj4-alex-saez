@@ -23,3 +23,4 @@ X = X[X$song_id %in% lyr$song_id,]
 save(X, file='../output/features.RData')
 
 
+#a = matrix(pred, ncol=10, byrow = T)

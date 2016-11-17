@@ -11,19 +11,19 @@ extract_features = function(song){
                                 'tempo', 
                                 'time_signature')]
   
-  # pitch means
+  # pitch means (12 dimnesional)
   pitchMean = rowMeans(song$segments_pitches) 
   pitchMean = data.frame(pitchMean = matrix(pitchMean, nrow=1))
   
-  # pitch variances
+  # pitch variances (12 dimnesional)
   pitchVar = apply(song$segments_pitches, 1, var) 
   pitchVar = data.frame(pitchVar = matrix(pitchVar, nrow=1))
   
-  # timbre mean
+  # timbre mean (12 dimnesional)
   timbreMean = rowMeans(song$segments_timbre) 
   timbreMean = data.frame(timbreMean = matrix(timbreMean, nrow=1))
   
-  # timbre variances
+  # timbre variances (12 dimnesional)
   timbreVar = apply(song$segments_timbre, 1, var) 
   timbreVar = data.frame(timbreVar = matrix(timbreVar, nrow=1))
   
