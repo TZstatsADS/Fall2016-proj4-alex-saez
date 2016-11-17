@@ -1,7 +1,7 @@
 
 predict_words = function(song, topicmodel, classifier, wordlist){
   # INPUT: 
-  #   - song: analysis part of song in h5 format (e.g. song = h5read(filename, '/analysis'))
+  #   - song: song in h5 format (e.g. song = h5read(filename, '/analysis'))
   #   - topicmodel
   #   - classifier
   #   - wordlist (optional): character vector of words to rank from most to least probable to occur
