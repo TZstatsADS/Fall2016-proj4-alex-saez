@@ -1,9 +1,15 @@
+
+##############################################################################################################
+########################## CODE FOR VISUALIZING A TOPIC MODEL USING LDAVIS ###################################
+##############################################################################################################
+
+
 library(topicmodels)
 library(servr)
 library(LDAvis)
 
 load('../output/lyr_english.RData')
-load('../output/topicmodel_5.RData')
+load('../output/topicmodel_15.RData')
 
 
 # create the JSON object to feed the visualization:

@@ -2,8 +2,8 @@
 predict_words = function(song, topicmodel, classifier, wordlist){
   # INPUT: 
   #   - song: song in h5 format (e.g. song = h5read(filename, '/analysis'))
-  #   - topicmodel
-  #   - classifier
+  #   - topicmodel: topic model built using topicmodels::LDA
+  #   - classifier: trained GBM model
   #   - wordlist (optional): character vector of words to rank from most to least probable to occur
   # OUTPUT: 
   #   - word_ranks: if argument wordlist supplied, ranks words in wordlist from most to least probable; 
@@ -14,12 +14,10 @@ predict_words = function(song, topicmodel, classifier, wordlist){
   library(topicmodels)
   source('../lib/extract_features.R')
   
-  if(length(classifier$parms$prior) != topicmodel@k)
-    stop('Number of topics in topicmodel must match number of classifier categories')
   
-  X = extract_features(song)
-  p_topics = predict(classifier, newdata = X)
-  
+  X = as.matrix(extract_features(song))
+  p_topics = predict(classifier, newdata=X, missing=NA)
+
   p_words = p_topics %*% exp(topicmodel@beta)
   names(p_words) = topicmodel@terms
   

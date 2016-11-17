@@ -1,26 +1,26 @@
 
+##############################################################################################################
+#################################### CODE FOR COMPLETING ASSIGNMENT ##########################################
+##############################################################################################################
+
+
 library(rhdf5)
-source('../lib/extract_features.R')
-load('../output/lyr_english.RData')
+source('../lib/predict_words.R')
+load('../output/gbm_classifier_15.RData')
+load('../output/topicmodel_15.RData')
 
-all_songs = list.files('../data/songs/', recursive=TRUE)
+datadir = '../data/songs/'
+all_songs = list.files(datadir, recursive=TRUE)
 
+# loop over songs in directory:
 X = data.frame()
 for(i in 1:length(all_songs)){
+  
   print(i)
+  
   song = h5read(paste("../data/songs/", all_songs[i], sep=""), '/analysis')
-  X = rbind(X, extract_features(song))
+  
+  p_words = predict_words(song=song, topicmodel=tm, classifier=topic_classifier)
+  cat(names(sort(p_words, decreasing=T)[1:20]))
 }
 
-# create column with song ids:
-song_ids = gsub('[A-Z]/', '', all_songs)
-song_ids = gsub('.h5', '', song_ids)
-X = cbind(song_id=song_ids, X)
-
-# keep only features for songs in English:
-X = X[X$song_id %in% lyr$song_id,]
-
-save(X, file='../output/features.RData')
-
-
-#a = matrix(pred, ncol=10, byrow = T)
