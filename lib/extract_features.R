@@ -4,12 +4,12 @@ extract_features = function(song){
   # INPUT: song in h5 format (e.g. song = h5read(filename, '/analysis'))
   # OUTPUT: single-row data frame of relevant song features
   
-  # general features
-  gen_features = song$songs[, c('key', 
-                                'loudness', 
-                                'mode', 
-                                'tempo', 
-                                'time_signature')]
+  # # general features
+  # gen_features = song$songs[, c('key', 
+  #                               'loudness', 
+  #                               'mode', 
+  #                               'tempo', 
+  #                               'time_signature')]
   
   # pitch means (12 dimnesional)
   pitchMean = rowMeans(song$segments_pitches) 
@@ -19,7 +19,7 @@ extract_features = function(song){
   pitchVar = apply(song$segments_pitches, 1, var) 
   pitchVar = data.frame(pitchVar = matrix(pitchVar, nrow=1))
   
-  # timbre mean (12 dimnesional)
+  # timbre means (12 dimnesional)
   timbreMean = rowMeans(song$segments_timbre) 
   timbreMean = data.frame(timbreMean = matrix(timbreMean, nrow=1))
   
@@ -45,8 +45,7 @@ extract_features = function(song){
                            seg_conf = mean(song$segments_confidence),
                            tatum_conf = mean(song$tatums_confidence))
   
-  return(cbind(gen_features, 
-               pitchMean, pitchVar,
+  return(cbind(pitchMean, pitchVar,
                timbreMean, timbreVar,
                loudness, 
                freqs, 

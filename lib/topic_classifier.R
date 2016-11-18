@@ -53,11 +53,11 @@ accuracy
 ########################## NOW FIT GBM TO WHOLE DATA WITH BEST PARAMETERS ####################################
 
 
-par = list(objective = "multi:softprob", # switch to soft assignments
+par = list(objective = "multi:softprob", # switch to soft assignments for prediction
            num_class = tm@k,
-           max_depth = 4,
+           max_depth = 2,
            eta = .1,
-           subsample = 0.8)
+           subsample = 1)
 
 datamat = xgb.DMatrix(data=X, label=y, missing=NA)
 
