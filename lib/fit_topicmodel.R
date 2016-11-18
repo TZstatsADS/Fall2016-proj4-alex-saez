@@ -21,10 +21,10 @@ dtm$dimnames$Docs = names(songs)
 
 # fit LDA:
 t = Sys.time()
-tm = LDA(dtm, k=10, method="Gibbs")
+tm = LDA(dtm, k=20, method="Gibbs")
 Sys.time() - t
 
-save(tm, file='../output/topicmodel_10.RData')
+save(tm, file='../output/topicmodel_20.RData')
 
 
 # tm = LDA(dtm, k=5, method="Gibbs")
